@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiralama ve Satış Uygulaması</title>
+    <link rel="icon" type="images/png" href="images/logo.png">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .content {
+            display: none;
+            margin-top: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            width: calc(33.33% - 20px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            display: none; /* Başlangıçta kartları gizli tutuyoruz */
+        }
+        .card.active {
+            display: block; /* Kirala butonuna basıldığında kartları göstermek için */
+        }
+        .card img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .card .features {
+            margin-top: 10px;
+            text-align: left;
+        }
+        .card .price {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .card .checkbox-container {
+            margin-top: 10px;
+        }
+        .total-price {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: none; /* Başlangıçta toplam ücreti gizli tutuyoruz */
+        }
+        .rent-button, .buy-button, .sell-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(1, 111, 255);
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 10px;
+        }
+
+        #sell-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        #sell-content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #sell-content .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button class="rent-button" onclick="showRentSection()">Kiralatmayı Başlat</button>
+        <button class="buy-button" onclick="showContent('buy-content')">Satın Al</button>
+        <button class="sell-button" onclick="showContent('sell-content')">Arabanı Sat</button>
+    </div>
+
+    <div id="buy-content" class="content">
+        <div class="card-container">
+            <!-- 9 Cards -->
+            <div class="card">
+                <img src="images/VW-Touareg.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1000000</div>
+                <div class="checkbox-container">
+                    <label for="card1-checkbox">Seç</label>
+                    <input type="checkbox" id="card1-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/volvo-s90.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1200000</div>
+                <div class="checkbox-container">
+                    <label for="card2-checkbox">Seç</label>
+                    <input type="checkbox" id="card2-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Porsche.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1300000</div>
+                <div class="checkbox-container">
+                    <label for="card3-checkbox">Seç</label>
+                    <input type="checkbox" id="card3-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Mercedes-EQC.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1600000</div>
+                <div class="checkbox-container">
+                    <label for="card4-checkbox">Seç</label>
+                    <input type="checkbox" id="card4-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/lexus.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺2000000</div>
+                <div class="checkbox-container">
+                    <label for="card5-checkbox">Seç</label>
+                    <input type="checkbox" id="card5-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/BMW_i7.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺2600000</div>
+                <div class="checkbox-container">
+                    <label for="card6-checkbox">Seç</label>
+                    <input type="checkbox" id="card6-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Audi_Q7.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺3700000</div>
+                <div class="checkbox-container">
+                    <label for="card7-checkbox">Seç</label>
+                    <input type="checkbox" id="card7-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Audi.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺3800000</div>
+                <div class="checkbox-container">
+                    <label for="card8-checkbox">Seç</label>
+                    <input type="checkbox" id="card8-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/RR.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺4900000</div>
+                <div class="checkbox-container">
+                    <label for="card9-checkbox">
+                        <input type="checkbox" id="card9-checkbox">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sell-content" class="content">
+            <p>Bu alan "Arabanı Sat" butonuna basıldığında görünecek içeriği gösterir.</p>
+            <form id="sell-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="brand">Marka:</label>
+                    <input type="text" id="brand" name="brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <input type="text" id="model" name="model" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Yıl:</label>
+                    <input type="number" id="year" name="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Fiyat:</label>
+                    <input type="number" id="price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="condition">Durum:</label>
+                    <select id="condition" name="condition" required>
+                        <option value="new">Yeni</option>
+                        <option value="used">Kullanılmış</option>
+                    </select>
+                </div>
+                <button type="submit">Gönder</button>
+            </form>
+        </div>
+    
+        <div class="card-container">
+            <div class="card">
+                <img src="images/cadillac-escalade.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1000</div>
+                <div class="checkbox-container">
+                    <label for="card1-checkbox">Seç</label>
+                    <input type="checkbox" id="card1-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/vogue.jpg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺1200</div>
+                <div class="checkbox-container">
+                    <label for="card2-checkbox">Seç</label>
+                    <input type="checkbox" id="card2-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/mercedes-e220.jpg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺2300</div>
+                <div class="checkbox-container">
+                    <label for="card3-checkbox">Seç</label>
+                    <input type="checkbox" id="card3-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Volvo.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺2400</div>
+                <div class="checkbox-container">
+                    <label for="card4-checkbox">Seç</label>
+                    <input type="checkbox" id="card4-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/BMW.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺3500</div>
+                <div class="checkbox-container">
+                    <label for="card5-checkbox">Seç</label>
+                    <input type="checkbox" id="card5-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/BMW_i7.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺3600</div>
+                <div class="checkbox-container">
+                    <label for="card6-checkbox">Seç</label>
+                    <input type="checkbox" id="card6-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/toyota-landcruiser.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺4700</div>
+                <div class="checkbox-container">
+                    <label for="card7-checkbox">Seç</label>
+                    <input type="checkbox" id="card7-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Audi.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺4800</div>
+                <div class="checkbox-container">
+                    <label for="card8-checkbox">Seç</label>
+                    <input type="checkbox" id="card8-checkbox">
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/Mercedes-EQC.jpeg" alt="Placeholder Image">
+                <div class="features">
+                    <p>Vites Tipi: Otomatik</p>
+                    <p>Yakıt Tipi: Benzin</p>
+                    <p>Renk: Siyah</p>
+                </div>
+                <div class="price">₺5900</div>
+                <div class="checkbox-container">
+                    <label for="card9-checkbox">Seç</label>
+                    <input type="checkbox" id="card9-checkbox">
+                </div>
+            </div>
+            <div class="popup-container" id="popup">
+                <button class="close-btn" onclick="closePopup()">X</button>
+                <h2>Kart Bilgilerini Girin</h2>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-number">Kart Numarası:</label>
+                        <input type="text" id="card-number" name="card-number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-name">Kart Üzerindeki İsim:</label>
+                        <input type="text" id="card-name" name="card-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiry-date">Son Kullanma Tarihi:</label>
+                        <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV Kodu:</label>
+                        <input type="text" id="cvv" name="cvv" maxlength="3" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Ödeme Yap">
+                    </div>
+                </form>
+            </div>
+            <button onclick="openPopup(event)">Ödeme Yap</button>
+            
+        </div>
+    
+        <div id="rent-section" style="display: none;">
+            <form>
+                <div class="form-group">
+                    <label for="start-date">Başlangıç Tarihi:</label>
+                    <input type="date" id="start-date">
+                    <input type="time" id="start-time">
+                </div>
+                <div class="form-group">
+                    <label for="end-date">Bitiş Tarihi:</label>
+                    <input type="date" id="end-date">
+                    <input type="time" id="end-time">
+                </div>
+            </form>
+        
+            <button type="button" onclick="calculateTotalPrice()">Hesapla</button>
+        
+            <div class="total-price" id="total-price" style="display: none;">
+                Toplam Kiralama Ücreti: <span id="total-amount">₺0</span>
+            </div>
+        </div>
+        
+        <div id="buy-content" style="display: none;">
+            <p>Siparişinizi tamamlamak için ödeme yapınız.</p>
+            <!-- Ödeme butonu ve diğer ödeme detayları buraya eklenebilir -->
+        </div>
+                   
+    
+        <script>
+            function showContent(contentId) {
+                // Tüm içerikleri gizle
+                var contents = document.getElementsByClassName('content');
+                for (var i = 0; i < contents.length; i++) {
+                    contents[i].style.display = 'none';
+                }
+                
+                // Seçilen içeriği göster
+                var selectedContent = document.getElementById(contentId);
+                if (selectedContent) {
+                    selectedContent.style.display = 'block';
+                }
+
+                // Satın al bölümünü gösterildiğinde kartları göster
+                if (contentId === 'buy-content') {
+                    var cards = document.querySelectorAll('#buy-content .card');
+                    cards.forEach(function(card, index) {
+                        if (index < 9) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            }
+
+    
+            function showRentSection() {
+                // Kiralama butonuna tıklandığında sadece kiralama alanlarını göster
+                var cards = document.getElementsByClassName('card');
+                for (var i = 0; i < cards.length; i++) {
+                    cards[i].classList.add('active');
+                }
+    
+                // Kiralama formunu ve toplam fiyat alanını göster
+                var rentSection = document.getElementById('rent-section');
+                var totalPrice = document.getElementById('total-price');
+                if (rentSection && totalPrice) {
+                    rentSection.style.display = 'block';
+                    totalPrice.style.display = 'block';
+                }
+            }
+    
+            // Checkbox'ların durumunu kontrol eden fonksiyon
+            function getCheckedCheckboxes() {
+                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                var checkedCheckboxes = [];
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        checkedCheckboxes.push(checkbox);
+                    }
+                });
+                return checkedCheckboxes;
+            }
+    
+            // Tarih ve saat değişikliklerini dinleyen fonksiyon
+            function calculateTotalPrice() {
+                // Başlangıç ve bitiş tarihlerini al
+                var startDate = document.getElementById('start-date').value;
+                var startTime = document.getElementById('start-time').value;
+                var endDate = document.getElementById('end-date').value;
+                var endTime = document.getElementById('end-time').value;
+
+                // Tarih ve saat değerlerini birleştirerek uygun bir formata dönüştür
+                var startDateTime = new Date(startDate + 'T' + startTime);
+                var endDateTime = new Date(endDate + 'T' + endTime);
+
+                // Fiyat hesaplama mantığı buraya eklenecek, örneğin:
+                // Örnek olarak 100 TL/gün olarak hesaplayalım
+                var totalDays = Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24));
+                var totalPrice = totalDays * 1000; // Günlük fiyat 100 TL olsun
+
+                // Sonucu ekrana yazdır
+                var totalPriceElement = document.getElementById('total-amount');
+                totalPriceElement.textContent = '₺' + totalPrice;
+                
+                // Toplam ücretin görünür olmasını sağla
+                var totalDiv = document.getElementById('total-price');
+                totalDiv.style.display = 'block';
+
+                // Kiralama başlat kısmını gizle, ödeme kısmını göster
+                var rentStartSection = document.getElementById('rent-start-section');
+                rentStartSection.style.display = 'none';
+
+                var paymentSection = document.getElementById('payment-section');
+                paymentSection.style.display = 'block';
+            }
+
+
+            function getCheckedCheckboxes() {
+                var checkboxes = document.querySelectorAll('#buy-content input[type="checkbox"]:checked');
+                return Array.from(checkboxes);
+            }
+
+
+
+            function openPopup(event) {
+                event.preventDefault(); // Formun gönderilmesini engelle
+                var popup = document.getElementById('popup');
+                popup.style.display = 'block';
+            }
+
+            function closePopup() {
+                var popup = document.getElementById('popup');
+                popup.style.display = 'none';
+            }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                var brand = document.getElementById('brand').value;
+                var model = document.getElementById('model').value;
+                var year = document.getElementById('year').value;
+                var price = document.getElementById('price').value;
+                var condition = document.getElementById('condition').value;
+
+                var offerText = 'Teklifimiz: ';
+                offerText += Math.floor(Math.random() * (price * 1.2 - price * 0.8) + price * 0.8);
+
+                var offerContainer = document.getElementById('offer-container');
+                var offerTextElement = document.getElementById('offer-text');
+                offerTextElement.textContent = offerText + ' ₺';
+                offerContainer.style.display = 'block';
+            }
+
+            function showPaymentButtonOnly() {
+                // Tüm içerikleri gizle
+                var contents = document.getElementsByClassName('content');
+                for (var i = 0; i < contents.length; i++) {
+                    contents[i].style.display = 'none';
+                }
+                
+                // Ödeme yap butonunu göster
+                var buyContent = document.getElementById('buy-content');
+                if (buyContent) {
+                    buyContent.style.display = 'block';
+                }
+            }
+
+</script>
+</body>
+</html>

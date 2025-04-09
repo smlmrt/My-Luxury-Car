@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Cards</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="images/png" href="images/logo.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2b2727; /* Siyah arka plan */
+            color: #FFFFFF; /* Beyaz metin rengi */
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            position: relative; /* Konumlandırma için */
+            width: calc(25% - 40px);
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #d02222; /* Kırmızı arka plan */
+            border: 2px solid #FFFFFF; /* Beyaz kenarlık */
+            cursor: pointer; /* Fareyi değiştir */
+        }
+
+        .card img {
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .card p {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        /* Pop-up için stiller */
+        .popup {
+            display: none; /* Başlangıçta gizli */
+            position: fixed;
+            top: 50%; /* Sayfanın ortasına gelecek */
+            left: 50%; /* Sayfanın ortasına gelecek */
+            transform: translate(-50%, -50%);
+            max-width: 80%; /* Maksimum genişlik */
+            max-height: 80%; /* Maksimum yükseklik */
+            overflow: auto; /* Taşan içeriği kaydır */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* Yarı saydam siyah arka plan */
+            color: #FFFFFF;
+            border-radius: 8px;
+            z-index: 1; /* Diğer içeriğin üstünde */
+        }
+
+        /* Kapatma düğmesi için stiller */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        /* Pop-up içerik stilleri */
+        .popup-content {
+            text-align: left;
+        }
+
+        .popup-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" onclick="showPopup('Audi A3 Sedan', 'Audi.jpeg', 'Premium bir sedan otomobil.', '250 Nm', 'Otomatik', 'Benzin', '8.4 saniye');">
+            <img src="images/Audi.jpeg" alt="Car 1">
+            <p>Audi A3 Sedan</p>
+        </div>
+        <div class="card" onclick="showPopup('Mercedes E220', 'mercedes-e220.jpg', 'Premium bir sedan otomobil.', '440 Nm', 'Otomatik', 'Mild-Hybrit', '7.4 saniye');">
+            <img src="images/mercedes-e220.jpg" alt="Car 2">
+            <p>Mercedes E220</p>
+        </div>
+        <div class="card" onclick="showPopup('Volvo XC90', 'Volvo.jpeg', 'Premium bir SUV otomobil.', '360 Nm', 'Otomatik', 'Hibrit', '7.7 saniye');">
+            <img src="images/Volvo.jpeg" alt="Car 3">
+            <p>Volvo XC90</p>
+        </div>
+        <div class="card" onclick="showPopup('BMW 7', 'BMW.jpeg', 'Premium bir sedan otomobil.', '745 Nm', 'Otomatik', 'Elektrik', '4.7 saniye');">
+            <img src="images/BMW.jpeg" alt="Car 4">
+            <p>BMW 5</p>
+        </div>
+        <div class="card" onclick="showPopup('Audi A8 Long', 'Audi_A8L.jpeg', 'Premium bir sedan otomobil.', '600 Nm', 'Otomatik', 'Dizel', '4.9 saniye');">
+            <img src="images/Audi_A8L.jpeg" alt="Car 5">
+            <p>Audi A8L</p>
+        </div>
+        <div class="card" onclick="showPopup('Porsche GT3', 'Porsche.jpeg', 'Premium bir spor otomobil.', '470 Nm', 'Manuel', 'Benzin', '3.9 saniye');">
+            <img src="images/Porsche.jpeg" alt="Car 3">
+            <p>Porsche GT3</p>
+        </div>
+        <div class="card" onclick="showPopup('Audi Q7', 'Audi_Q7.jpeg', 'Premium bir sedan otomobil.', '600 Nm', 'Otomatik', 'Dizel', '6.1 saniye');">
+            <img src="images/Audi_Q7.jpeg" alt="Car 7">
+            <p>Audi Q7</p>
+        </div>
+        <div class="card" onclick="showPopup('Cadillac Escalade', 'Cadillac_escalade_yan.jpeg', 'Premium bir sedan otomobil.', '885 Nm', 'Otomatik', 'Benzin', '4.4 saniye');">
+            <img src="images/cadillac-escalade.jpeg" alt="Car 8">
+            <p>Cadillac Escalade</p>
+        </div>
+        <div class="card" onclick="showPopup('Lexus', 'lexus.jpeg', 'Premium bir sedan otomobil.', '650 Nm', 'Otomatik', 'Hybrit', '5.5 saniye');">
+            <img src="images/lexus.jpeg" alt="Car 9">
+            <p>Lexus</p>
+        </div>
+        <div class="card" onclick="showPopup('Mercedes EQC', 'Mercedes-EQC.jpeg', 'Premium bir sedan otomobil.', '760 Nm', 'Otomatik', 'Elektrik', '5.1 saniye');">
+            <img src="images/Mercedes-EQC.jpeg" alt="Car 10">
+            <p>Mercedes EQC</p>
+        </div>
+        <div class="card" onclick="showPopup('Range Rover', 'vogue.jpg', 'Premium bir sedan otomobil.', '750 Nm', 'Otomatik', 'Benzin', '4.7 saniye');">
+            <img src="images/vogue.jpg" alt="Car 11">
+            <p>Range Rover</p>
+        </div>
+        <div class="card" onclick="showPopup('Rolls Royce', 'RR.jpeg', 'Premium bir sedan otomobil.', '900 Nm', 'Otomatik', 'Benzin', '5.4 saniye');">
+            <img src="images/RR.jpeg" alt="Car 12">
+            <p>Rolls Royce</p>
+        </div>
+        <div class="card"onclick="showPopup('Toyota LandCruiser', 'toyota-landcruiser.jpeg', 'Premium bir sedan otomobil.', '650 Nm', 'Otomatik', 'Benzin', '6.7 saniye');">
+            <img src="images/toyota-landcruiser.jpeg" alt="Car 13">
+            <p>Toyota LandCruiser</p>
+        </div>
+        <div class="card" onclick="showPopup('Volvo S90', 'volvo-s90.jpeg', 'Premium bir sedan otomobil.', '400 Nm', 'Otomatik', 'Benzin', '4.7 saniye');">
+            <img src="images/volvo-s90.jpeg" alt="Car 14">
+            <p>Volvo S90</p>
+        </div>
+        <div class="card" onclick="showPopup('Volkwagen Touareg', 'VW-Touareg.jpeg', 'Premium bir sedan otomobil.', '450 Nm', 'Otomatik', 'Benzin', '5.9 saniye');">
+            <img src="images/VW-Touareg.jpeg" alt="Car 15">
+            <p>Volkswagen Touareg</p>
+        </div>
+        <div class="card" onclick="showPopup('BMW İ7', 'BMW_i7.jpeg', 'Premium bir sedan otomobil.', '280 Nm', 'Otomatik', 'Benzin', '6.5 saniye');">
+            <img src="images/BMW_i7.jpeg" alt="Car 16">
+            <p>BMW İ7</p>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <div class="popup-content">
+            <h2 id="carName"></h2>
+            <img id="carImage" src="" alt="Car Image">
+            <p id="carDescription"></p>
+            <p><strong>Tork:</strong> <span id="carTorque"></span></p>
+            <p><strong>Vites Türü:</strong> <span id="carTransmission"></span></p>
+            <p><strong>Yakıt Türü:</strong> <span id="carFuelType"></span></p>
+            <p><strong>0-100 Hızlanma:</strong> <span id="carAcceleration"></span></p>
+        </div>
+    </div>
+
+<script>
+    function showPopup(name, imageName, description, torque, transmission, fuelType, acceleration) {
+        // Pop-up içeriğini güncelle
+        document.getElementById("carName").textContent = name;
+        document.getElementById("carImage").src = "images/" + imageName;
+        document.getElementById("carDescription").textContent = description;
+        document.getElementById("carTorque").textContent = torque;
+        document.getElementById("carTransmission").textContent = transmission;
+        document.getElementById("carFuelType").textContent = fuelType;
+        document.getElementById("carAcceleration").textContent = acceleration;
+        // Pop-up'u göster
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function closePopup() {
+        // Pop-up'u gizle
+        document.getElementById("popup").style.display = "none";
+    }
+</script>
+</body>
+</html>
